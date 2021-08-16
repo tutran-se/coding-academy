@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Flex, Heading, Spacer } from "@chakra-ui/react";
 const Header = () => {
   return (
-    <Flex p="2" align="center">
+    <Flex py="2" align="center">
       <Box>
         <Heading size="md">🔥tutran.dev</Heading>
       </Box>
