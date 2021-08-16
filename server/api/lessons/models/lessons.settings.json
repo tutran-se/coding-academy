@@ -27,6 +27,11 @@
     },
     "duration": {
       "type": "string"
+    },
+    "isPreview": {
+      "type": "boolean",
+      "default": false,
+      "required": true
     }
   }
 }

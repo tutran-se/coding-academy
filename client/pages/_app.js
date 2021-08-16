@@ -6,7 +6,7 @@ import Header from "../components/Header";
 function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider>
-      <Container maxW="container.xl">
+      <Container maxW="container.md">
         <Header />
         <Component {...pageProps} />
         <Footer />
