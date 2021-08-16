@@ -89,8 +89,6 @@ const CourseDetail = ({ course }) => {
             <ChapterItem chapter={chapter} key={chapter.id} />
           ))}
         </Stack>
-
-        {/* <ChapterListForCoursePage chapters= {chapters} course={course}/> */}
       </Stack>
     </>
   );

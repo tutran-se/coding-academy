@@ -46,3 +46,44 @@ export const COURSE_DETAIL = (courseSlug) => {
     `;
   return query;
 };
+
+export const LESSON_DETAIL = (lessonSlug, courseSlug) => {
+  const query = gql`
+  query{
+    lessons(where:{slug:"${lessonSlug}"}){
+      name
+      id
+      slug
+      video
+    }
+    courses(where:{slug:"${courseSlug}"}){
+      totalDurations
+      totalLessons
+      name
+      slug
+      chapters{
+        id
+        name
+        lessons{
+          id
+          slug
+          name
+          duration
+          isPreview
+        }
+      }
+    }
+}`;
+  return query;
+};
+
+export const ALL_LESSONS = gql`
+  query {
+    lessons {
+      slug
+      course {
+        slug
+      }
+    }
+  }
+`;
