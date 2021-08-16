@@ -8,12 +8,12 @@ const ChapterItem = ({ chapter }) => {
   const { colorMode } = useColorMode();
   const bg = colorMode === "light" ? "gray.300" : "gray.600";
   return (
-    <Stack spacing="0.5">
+    <Stack spacing="1">
       <Heading size="sm" p="3" py={4} bg={bg} borderRadius="sm">
         {name}
       </Heading>
 
-      <Stack spacing="0.5">
+      <Stack spacing="1">
         {lessons.map((lesson) => (
           <LessonItem lesson={lesson} key={lesson.id} />
         ))}

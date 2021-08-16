@@ -14,7 +14,7 @@ import { BreadcrumbLink } from "@chakra-ui/breadcrumb";
 import ReactHtmlParser from "react-html-parser";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import Link from "next/link";
-import { Center } from "@chakra-ui/react";
+import { Center, useColorMode } from "@chakra-ui/react";
 import ChapterItem from "./ChapterItem";
 
 const CourseDetail = ({ course }) => {
@@ -28,7 +28,8 @@ const CourseDetail = ({ course }) => {
     totalDurations,
     slug,
   } = course;
-
+  const { colorMode } = useColorMode();
+  const breadcrumbColor = colorMode === "light" ? "orange.500" : "orange.400";
   return (
     <>
       <Stack spacing="4" mt="4">
@@ -44,8 +45,8 @@ const CourseDetail = ({ course }) => {
           </BreadcrumbItem>
 
           <BreadcrumbItem isCurrentPage textTransform="capitalize">
-            <BreadcrumbLink href="#">
-              <Text color="orange">{slug}</Text>
+            <BreadcrumbLink href="#" color={breadcrumbColor}>
+              {slug}
             </BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
