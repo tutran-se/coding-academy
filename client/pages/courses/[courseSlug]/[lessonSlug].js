@@ -4,7 +4,7 @@ import { ALL_LESSONS, LESSON_DETAIL } from "../../../constants/queryGrapql";
 import client from "../../../libs/apolloClient";
 
 const LessonDetailPage = ({ course, lesson }) => {
-  console.log(lesson, course);
+  // console.log(lesson, course);
   return (
     <>
       <LessonDetail lesson={lesson} course={course} />
@@ -21,7 +21,8 @@ export async function getStaticProps(context) {
   });
 
   return {
-    props: { course: courses[0], lesson: lessons[0] }, // will be passed to the page component as props
+    props: { course: courses[0], lesson: lessons[0] },
+    revalidate: 1,
   };
 }
 
@@ -41,7 +42,7 @@ export async function getStaticPaths() {
   });
   return {
     paths,
-    fallback: "blocking", // See the "fallback" section below
+    fallback: "blocking",
   };
 }
 

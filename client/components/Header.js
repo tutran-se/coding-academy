@@ -14,7 +14,7 @@ const Header = () => {
   return (
     <Flex py="2" align="center">
       <Box>
-        <Heading size="md">
+        <Heading size="sm">
           🔥 <Link href="/">tutran.dev</Link>
         </Heading>
       </Box>

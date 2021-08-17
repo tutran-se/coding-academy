@@ -7,7 +7,6 @@ import {
 import client from "../../../libs/apolloClient";
 
 const CourseDetailPage = ({ course }) => {
-  console.log(course);
   return (
     <>
       <CourseDetail course={course} />
@@ -23,7 +22,8 @@ export async function getStaticProps(context) {
   });
 
   return {
-    props: { course: courses[0] }, // will be passed to the page component as props
+    props: { course: courses[0] },
+    revalidate: 1,
   };
 }
 
@@ -42,7 +42,7 @@ export async function getStaticPaths() {
   });
   return {
     paths,
-    fallback: "blocking", // See the "fallback" section below
+    fallback: "blocking",
   };
 }
 
