@@ -1,28 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   FormControl,
   FormLabel,
-  FormErrorMessage,
-  FormHelperText,
   Input,
   Button,
   Text,
   Stack,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { validateEmail, validatePassword } from "../helpers/formValidation";
+import { validateEmail } from "../helpers/formValidation";
+import AuthContext from "../context/AuthContext";
 
 const LoginForm = () => {
+  const { login, loginLoading } = useContext(AuthContext);
   const [userInput, setUserInput] = useState({ email: "", password: "" });
   const isValid =
     userInput.email.trim() &&
     userInput.password.trim() &&
-    validateEmail(userInput.email.trim()) &&
-    validatePassword(userInput.password.trim());
+    validateEmail(userInput.email.trim());
 
   const formSubmit = (e) => {
     e.preventDefault();
-    console.log(userInput);
+    const { email, password } = userInput;
+    login({ variables: { email, password } });
   };
   return (
     <form onSubmit={formSubmit}>
@@ -38,10 +38,6 @@ const LoginForm = () => {
         </FormControl>
         <FormControl id="password" isRequired>
           <FormLabel>Password</FormLabel>
-          <FormHelperText mb="2">
-            Password should be at least 8 characters long (contain at least 1
-            number, 1 lower case, 1 upper case)
-          </FormHelperText>
           <Input
             type="password"
             onChange={(e) =>
@@ -53,10 +49,10 @@ const LoginForm = () => {
         <Button
           mt={4}
           colorScheme="teal"
-          // isLoading={props.isSubmitting}
           type="submit"
           size="lg"
           isDisabled={!isValid}
+          isLoading={loginLoading}
         >
           Login
         </Button>

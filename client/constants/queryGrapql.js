@@ -87,3 +87,44 @@ export const ALL_LESSONS = gql`
     }
   }
 `;
+
+export const USER_ME = gql`
+  query {
+    me {
+      id
+      confirmed
+      username
+      email
+    }
+  }
+`;
+
+export const LOGIN_USER = gql`
+  mutation Login($email: String!, $password: String!) {
+    login(input: { identifier: $email, password: $password }) {
+      jwt
+      user {
+        username
+        email
+        id
+        confirmed
+      }
+    }
+  }
+`;
+
+export const REGISTER_USER = gql`
+  mutation Register($username: String!, $email: String!, $password: String!) {
+    register(
+      input: { username: $username, email: $email, password: $password }
+    ) {
+      jwt
+      user {
+        username
+        email
+        id
+        confirmed
+      }
+    }
+  }
+`;

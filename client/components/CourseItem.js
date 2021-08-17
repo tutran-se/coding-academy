@@ -8,7 +8,7 @@ const CourseItem = ({ course }) => {
     course;
   return (
     <Box
-      maxW={["full", "full", "48%", "32%"]}
+      maxW={["full", "full", "45%", "45%"]}
       borderRadius="lg"
       overflow="hidden"
       boxShadow="xl"

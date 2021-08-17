@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   FormControl,
   FormLabel,
@@ -10,16 +10,15 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { validateEmail, validatePassword } from "../helpers/formValidation";
+import AuthContext from "../context/AuthContext";
 
 const RegisterForm = () => {
+  const { register, registerLoading } = useContext(AuthContext);
   const [userInput, setUserInput] = useState({
-    username: "",
     email: "",
     password: "",
   });
   const isValid =
-    userInput.username.trim() &&
-    userInput.username.trim().length >= 4 &&
     userInput.email.trim() &&
     userInput.password.trim() &&
     validateEmail(userInput.email.trim()) &&
@@ -27,25 +26,14 @@ const RegisterForm = () => {
 
   const formSubmit = (e) => {
     e.preventDefault();
-    console.log(userInput);
+    const { email, password } = userInput;
+    const username = email.split("@")[0];
+    register({ variables: { username, email, password } });
+    console.log("hello");
   };
   return (
     <form onSubmit={formSubmit}>
       <Stack>
-        <FormControl id="username" isRequired>
-          <FormLabel>Name</FormLabel>
-          <FormHelperText mb="2">
-            Name must be at least 4 characters long
-          </FormHelperText>
-
-          <Input
-            type="text"
-            onChange={(e) =>
-              setUserInput({ ...userInput, username: e.target.value })
-            }
-          />
-        </FormControl>
-
         <FormControl id="email" isRequired>
           <FormLabel>Email</FormLabel>
           <Input
@@ -72,7 +60,7 @@ const RegisterForm = () => {
         <Button
           mt={4}
           colorScheme="teal"
-          // isLoading={props.isSubmitting}
+          isLoading={registerLoading}
           type="submit"
           size="lg"
           isDisabled={!isValid}
