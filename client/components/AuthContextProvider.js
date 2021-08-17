@@ -42,7 +42,7 @@ const AuthContextProvider = ({ children }) => {
       toast({
         position: "top-right",
         title: "Error!",
-        description: "Email/Password is not correct",
+        description: "Email/Password is not correct.",
         status: "error",
         duration: 4000,
         isClosable: true,
@@ -53,10 +53,14 @@ const AuthContextProvider = ({ children }) => {
   const [register, { loading: registerLoading }] = useMutation(REGISTER_USER, {
     onCompleted({ register }) {
       if (register) {
-        const { jwt, user } = register;
-        console.log(register);
-        localStorage.setItem("token", JSON.stringify(jwt));
-        setState({ ...state, user, isAuthStateReady: true });
+        toast({
+          position: "top",
+          title: "Success!",
+          description: "Confirmation link has sent to your email.",
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+        });
         router.push("/");
       }
     },
