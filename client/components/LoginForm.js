@@ -10,8 +10,11 @@ import {
 import Link from "next/link";
 import { validateEmail } from "../helpers/formValidation";
 import AuthContext from "../context/AuthContext";
+import { FaGoogle } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 const LoginForm = () => {
+  let router = useRouter();
   const { login, loginLoading } = useContext(AuthContext);
   const [userInput, setUserInput] = useState({ email: "", password: "" });
   const isValid =
@@ -48,13 +51,22 @@ const LoginForm = () => {
         <br />
         <Button
           mt={4}
-          colorScheme="teal"
           type="submit"
           size="lg"
           isDisabled={!isValid}
           isLoading={loginLoading}
+          colorScheme="orange"
         >
           Login
+        </Button>
+        <Button
+          mt={4}
+          colorScheme="teal"
+          size="lg"
+          onClick={() => router.push("http://localhost:1337/connect/google")}
+        >
+          <FaGoogle />
+          &ensp;Login with Google
         </Button>
         <Text>
           Don't have account.{" "}

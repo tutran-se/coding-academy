@@ -34,7 +34,7 @@ const AuthContextProvider = ({ children }) => {
         localStorage.setItem("token", jwt);
         console.log(state);
         setState({ ...state, user, isAuthStateReady: true });
-        router.push("/");
+        router.back();
       }
     },
     onError(error) {
@@ -78,9 +78,22 @@ const AuthContextProvider = ({ children }) => {
     },
   });
 
+  const signOut = () => {
+    setState({ ...state, user: null });
+    localStorage.removeItem("token");
+  };
   return (
     <AuthContext.Provider
-      value={{ ...state, login, register, loginLoading, registerLoading }}
+      value={{
+        ...state,
+        login,
+        register,
+        loginLoading,
+        registerLoading,
+        signOut,
+        setState,
+        state,
+      }}
     >
       {children}
     </AuthContext.Provider>

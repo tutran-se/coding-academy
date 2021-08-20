@@ -36,7 +36,7 @@ const CourseDetail = ({ course }) => {
         <Breadcrumb
           spacing="0.5"
           separator={<ChevronRightIcon color="gray.500" />}
-          fontSize="sm"
+          fontSize={{ base: "12px", md: "14px", lg: "16px" }}
         >
           <BreadcrumbItem>
             <BreadcrumbLink href="/" as={Link}>
@@ -51,7 +51,9 @@ const CourseDetail = ({ course }) => {
           </BreadcrumbItem>
         </Breadcrumb>
         <Center textAlign="center">
-          <Heading size="xl">{name}</Heading>
+          <Heading fontSize={{ base: "20px", md: "25px", lg: "35px" }}>
+            {name}
+          </Heading>
         </Center>
         <Box>
           <AspectRatio ratio={16 / 9} maxW="100%">
@@ -60,12 +62,14 @@ const CourseDetail = ({ course }) => {
         </Box>
 
         <Box>
-          <Heading size="md">⚡ Summary: </Heading>
+          <Heading fontSize={{ base: "18px", md: "18px", lg: "20px" }}>
+            ⚡ Summary:{" "}
+          </Heading>
           <Text lineHeight="taller">{summary}</Text>
         </Box>
 
         <Box>
-          <Heading size="md">
+          <Heading fontSize={{ base: "18px", md: "18px", lg: "20px" }}>
             💰 Price:{" "}
             <Badge borderRadius="base" p="2" fontSize="md" colorScheme="green">
               ${price}
@@ -74,12 +78,14 @@ const CourseDetail = ({ course }) => {
         </Box>
         <Stack>
           <Flex alignItems="baseline">
-            <Heading size="md">📝 Course Curriculum:</Heading>
+            <Heading fontSize={{ base: "18px", md: "18px", lg: "20px" }}>
+              📝 Course Curriculum:
+            </Heading>
             <Box
               color="gray.500"
               fontWeight="semibold"
               letterSpacing="wide"
-              fontSize="md"
+              fontSize={{ base: "12px", md: "14px", lg: "16px" }}
               ml="2"
             >
               {totalLessons} chapters &bull; {totalDurations}h

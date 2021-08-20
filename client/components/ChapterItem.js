@@ -6,10 +6,17 @@ import { useColorMode } from "@chakra-ui/react";
 const ChapterItem = ({ chapter }) => {
   const { name, lessons } = chapter;
   const { colorMode } = useColorMode();
-  const bg = colorMode === "light" ? "gray.300" : "gray.600";
+  const bg = colorMode === "light" ? "gray.300" : "gray.700";
   return (
     <Stack spacing="1">
-      <Heading size="sm" p="3" py={4} bg={bg} borderRadius="sm">
+      <Heading
+        size="sm"
+        p="3"
+        py={4}
+        bg={bg}
+        borderRadius="sm"
+        textTransform="uppercase"
+      >
         {name}
       </Heading>
 

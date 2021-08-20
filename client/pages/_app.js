@@ -9,9 +9,17 @@ import theme from "../libs/theme";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider theme={theme} resetCSS>
       <ApolloProvider client={client}>
-        <Container maxW="container.md">
+        <Container
+          maxW={[
+            "container.xl",
+            "container.sm",
+            "container.md",
+            "container.lg",
+          ]}
+          p={4}
+        >
           <AuthContextProvider>
             <Header />
             <Component {...pageProps} />

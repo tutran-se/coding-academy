@@ -55,8 +55,10 @@ export const LESSON_DETAIL = (lessonSlug, courseSlug) => {
       id
       slug
       video
+      isPreview
     }
     courses(where:{slug:"${courseSlug}"}){
+      id
       totalDurations
       totalLessons
       name

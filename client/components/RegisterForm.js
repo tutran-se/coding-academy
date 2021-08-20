@@ -59,7 +59,7 @@ const RegisterForm = () => {
         <br />
         <Button
           mt={4}
-          colorScheme="teal"
+          colorScheme="orange"
           isLoading={registerLoading}
           type="submit"
           size="lg"

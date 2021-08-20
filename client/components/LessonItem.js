@@ -8,10 +8,11 @@ import { FaVideo } from "react-icons/fa";
 const LessonItem = ({ lesson }) => {
   const { name, slug, duration, isPreview } = lesson;
   const router = useRouter();
-  const { courseSlug } = router.query;
+  const { courseSlug, lessonSlug } = router.query;
   const { colorMode } = useColorMode();
-  const bg = colorMode === "light" ? "gray.200" : "gray.700";
-  const bgHover = colorMode === "light" ? "gray.300" : "gray.500";
+  const bg = colorMode === "light" ? "gray.200" : "gray.800";
+  const bgHover = colorMode === "light" ? "gray.300" : "gray.700";
+  const isWatching = lessonSlug === slug;
   return (
     <Link href={`/courses/${courseSlug}/${slug}`}>
       <a>
@@ -26,9 +27,16 @@ const LessonItem = ({ lesson }) => {
             background: bgHover,
           }}
           transition="0.6s"
+          border={isWatching && "2px dashed orange"}
         >
-          <Flex alignItems="center">
-            <FaVideo /> <span style={{ marginLeft: "1rem" }}>{name} </span>
+          <Flex
+            alignItems="center"
+            fontSize={{ base: "15px", md: "15px", lg: "16px" }}
+          >
+            <FaVideo />{" "}
+            <span style={{ marginLeft: "1rem" }}>
+              {name} {isWatching && "(Watching...)"}
+            </span>
           </Flex>
           <Flex alignItems="center">
             {isPreview && (

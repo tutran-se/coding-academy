@@ -3,14 +3,17 @@ import CourseItem from "../components/CourseItem";
 import { Flex } from "@chakra-ui/layout";
 import client from "../libs/apolloClient";
 import { ALL_COURSES_QUERY } from "../constants/queryGrapql";
+import { Box } from "@chakra-ui/react";
 
 const Homepage = ({ courses }) => {
   return (
-    <Flex>
-      {courses.map((course) => (
-        <CourseItem course={course} key={course.id} />
-      ))}
-    </Flex>
+    <Box minH="82vh">
+      <Flex>
+        {courses.map((course) => (
+          <CourseItem course={course} key={course.id} />
+        ))}
+      </Flex>
+    </Box>
   );
 };
 

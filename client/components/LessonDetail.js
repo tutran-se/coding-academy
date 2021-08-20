@@ -3,18 +3,26 @@ import { Box, Flex, Heading, Stack, AspectRatio } from "@chakra-ui/layout";
 import { Breadcrumb } from "@chakra-ui/breadcrumb";
 import { BreadcrumbItem } from "@chakra-ui/breadcrumb";
 import { BreadcrumbLink } from "@chakra-ui/breadcrumb";
-import ReactHtmlParser from "react-html-parser";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import { Button, Center, Tooltip, useColorMode } from "@chakra-ui/react";
 import ChapterItem from "./ChapterItem";
+import NotPaid from "./NotPaid";
+import VideoContainer from "./VideoContainer";
 
 const LessonDetail = ({ course, lesson }) => {
-  const { chapters, totalLessons, totalDurations, slug: courseSlug } = course;
+  const {
+    chapters,
+    totalLessons,
+    totalDurations,
+    slug: courseSlug,
+    id,
+  } = course;
+
   const lessonsArray = chapters.map((chapter) => chapter.lessons);
   let lessons = [];
   lessonsArray.forEach((e) => (lessons = [...lessons, ...e]));
-  const { slug: lessonSlug, video, name } = lesson;
+  const { slug: lessonSlug, video, name, isPreview = null } = lesson;
   const { colorMode } = useColorMode();
   const breadcrumbColor = colorMode === "light" ? "orange.500" : "orange.300";
 
@@ -27,7 +35,7 @@ const LessonDetail = ({ course, lesson }) => {
         <Breadcrumb
           spacing="0.5"
           separator={<ChevronRightIcon color="gray.500" />}
-          fontSize="sm"
+          fontSize={{ base: "12px", md: "14px", lg: "16px" }}
         >
           <BreadcrumbItem>
             <BreadcrumbLink href="/" as={Link}>
@@ -47,12 +55,12 @@ const LessonDetail = ({ course, lesson }) => {
           </BreadcrumbItem>
         </Breadcrumb>
         <Center textAlign="center">
-          <Heading size="xl">{name}</Heading>
+          <Heading fontSize={{ base: "20px", md: "25px", lg: "35px" }}>
+            {name}
+          </Heading>
         </Center>
         <Box>
-          <AspectRatio ratio={16 / 9} maxW="100%">
-            <>{ReactHtmlParser(video)}</>
-          </AspectRatio>
+          <VideoContainer courseId={id} video={video} isPreview={isPreview} />
         </Box>
 
         <Flex justify="space-between" mt={3}>
@@ -101,12 +109,14 @@ const LessonDetail = ({ course, lesson }) => {
         </Flex>
         <Stack>
           <Flex alignItems="baseline">
-            <Heading size="md">📝 Course Curriculum:</Heading>
+            <Heading fontSize={{ base: "18px", md: "18px", lg: "20px" }}>
+              📝 Course Curriculum:
+            </Heading>
             <Box
               color="gray.500"
               fontWeight="semibold"
               letterSpacing="wide"
-              fontSize="md"
+              fontSize={{ base: "12px", md: "14px", lg: "16px" }}
               ml="2"
             >
               {totalLessons} chapters &bull; {totalDurations}h
