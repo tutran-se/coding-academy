@@ -33,7 +33,7 @@ const LessonItem = ({ lesson }) => {
             alignItems="center"
             fontSize={{ base: "15px", md: "15px", lg: "16px" }}
           >
-            <FaVideo />{" "}
+            {isWatching ? "🔥" : <FaVideo />}{" "}
             <span style={{ marginLeft: "1rem" }}>
               {name} {isWatching && "(Watching...)"}
             </span>

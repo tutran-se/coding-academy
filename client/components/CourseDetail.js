@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Badge,
   Box,
@@ -14,8 +14,11 @@ import { BreadcrumbLink } from "@chakra-ui/breadcrumb";
 import ReactHtmlParser from "react-html-parser";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import Link from "next/link";
-import { Center, useColorMode } from "@chakra-ui/react";
+import { Button, Center, useColorMode } from "@chakra-ui/react";
 import ChapterItem from "./ChapterItem";
+import AuthContext from "../context/AuthContext";
+import router from "next/router";
+import { FaCcMastercard, FaCcStripe, FaCcVisa } from "react-icons/fa";
 
 const CourseDetail = ({ course }) => {
   const {
@@ -30,6 +33,27 @@ const CourseDetail = ({ course }) => {
   } = course;
   const { colorMode } = useColorMode();
   const breadcrumbColor = colorMode === "light" ? "orange.500" : "orange.400";
+  const { isAuthStateReady, user } = useContext(AuthContext);
+  const createCheckOutSession = async () => {
+    try {
+      const url =
+        process.env.NEXT_PUBLIC_STRAPI_REST_API +
+        "/orders/stripe-checkout-session";
+      const res = await fetch(url, {
+        method: "post",
+        body: JSON.stringify({ course }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      const { data } = await res.json();
+      router.push(data.url);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <Stack spacing="4" mt="4">
@@ -63,23 +87,66 @@ const CourseDetail = ({ course }) => {
 
         <Box>
           <Heading fontSize={{ base: "18px", md: "18px", lg: "20px" }}>
-            ⚡ Summary:{" "}
+            👋 Summary:{" "}
           </Heading>
           <Text lineHeight="taller">{summary}</Text>
         </Box>
 
         <Box>
           <Heading fontSize={{ base: "18px", md: "18px", lg: "20px" }}>
-            💰 Price:{" "}
+            🏷️ Price:{" "}
             <Badge borderRadius="base" p="2" fontSize="md" colorScheme="green">
               ${price}
             </Badge>
           </Heading>
         </Box>
+        <Box>
+          <Box d="flex" alignItems="center" mb="2">
+            <Heading fontSize={{ base: "18px", md: "18px", lg: "20px" }} mr="2">
+              💳 Payment Method:{" "}
+            </Heading>
+            <Heading
+              fontSize={{ base: "30px", md: "30px", lg: "50px" }}
+              d="flex"
+              w="16%"
+              justifyContent="space-between"
+            >
+              {" "}
+              <FaCcMastercard />
+              <FaCcVisa />
+              <FaCcStripe />
+            </Heading>
+          </Box>
+
+          <Box>
+            {isAuthStateReady && (
+              <>
+                {user ? (
+                  <Button
+                    colorScheme="teal"
+                    onClick={() => createCheckOutSession()}
+                    size="lg"
+                  >
+                    👉 Buy Now
+                  </Button>
+                ) : (
+                  <Link href="/auth/login">
+                    <a>
+                      <Button colorScheme="teal" size="lg">
+                        👉 You need to login to pay this course
+                      </Button>
+                    </a>
+                  </Link>
+                )}
+              </>
+            )}
+          </Box>
+        </Box>
+
         <Stack>
           <Flex alignItems="baseline">
             <Heading fontSize={{ base: "18px", md: "18px", lg: "20px" }}>
-              📝 Course Curriculum:
+              ⚡ Course Curriculum:
             </Heading>
             <Box
               color="gray.500"

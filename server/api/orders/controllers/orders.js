@@ -5,44 +5,38 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST);
 
 const YOUR_DOMAIN = "http://localhost:3000/my-courses";
 
-const endpointSecret = "whsec_...";
+// const endpointSecret = "whsec_...";
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
  * to customize this controller
  */
-//  console.log(ctx.request.body[unparsed]);
+
 module.exports = {
   async createStripeCheckout(ctx) {
-    // const { id: userId } = ctx.state.user;
-    // const entity = await strapi
-    //   .query("user", "users-permissions")
-    //   .findOne({ id });
-    // return sanitizeEntity(entity, {
-    //   model: strapi.plugins["users-permissions"].models.user,
-    // });
-    // const { courseId } = req.body;
+    const { id: userId } = ctx.state.user;
+    const { course } = ctx.request.body;
+    const { id: courseId = 0, name = "", price = 0 } = course;
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
         {
-          quantity: 2,
-          // TODO: replace this with the `price` of the product you want to sell
+          quantity: 1,
           price_data: {
             currency: "usd",
             product_data: {
-              name: "test item 1",
+              name,
             },
-            unit_amount: 20,
+            unit_amount: Math.round(price) * 100,
           },
         },
       ],
-      metadata: { courseId: 1, userId: 2 },
+      metadata: { courseId, userId },
       mode: "payment",
       success_url: `${YOUR_DOMAIN}`,
       cancel_url: `${YOUR_DOMAIN}`,
     });
     ctx.status = 200;
-    // ctx.redirect(session.url);
     const data = { url: session.url };
     ctx.send({
       data,

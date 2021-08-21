@@ -3,26 +3,11 @@ import { Badge, Box, Stack } from "@chakra-ui/layout";
 import Link from "next/link";
 import NextImage from "next/image";
 import { Button } from "@chakra-ui/button";
-import { useRouter } from "next/router";
+
 const CourseItem = ({ course }) => {
   const { name, slug, summary, image, price, totalLessons, totalDurations } =
     course;
-  let router = useRouter();
-  const createCheckOutSession = async () => {
-    try {
-      const res = await fetch(
-        "http://localhost:1337/orders/stripe-checkout-session",
-        {
-          method: "post",
-        }
-      );
-      const data = await res.json();
-      router.push(data.url);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   return (
     <Box
       maxW={["full", "full", "45%", "32%"]}
@@ -72,14 +57,11 @@ const CourseItem = ({ course }) => {
         </Box>
         <Box color="gray.400">{summary.slice(0, 199)}</Box>
         <Box mt="3">
-          {/* <Link href={`/courses/${slug}`}> */}
-          {/* <a href="http://localhost:1337/connect/google"> */}
-          <Button onClick={() => createCheckOutSession()} colorScheme="orange">
-            {" "}
-            🔥 View Details
-          </Button>
-          {/* </a> */}
-          {/* </Link> */}
+          <Link href={`/courses/${slug}`}>
+            <a>
+              <Button colorScheme="orange">🔥 View Details</Button>
+            </a>
+          </Link>
         </Box>
       </Box>
     </Box>

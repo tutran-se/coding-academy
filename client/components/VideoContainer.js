@@ -8,9 +8,11 @@ import Loader from "./Loader";
 const VideoContainer = ({ courseId, video, isPreview }) => {
   const [isPaid, setIsPaid] = useState(false);
   const { isAuthStateReady, user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const checkIsPaid = async () => {
       try {
+        setLoading(true);
         const url =
           process.env.NEXT_PUBLIC_STRAPI_REST_API + "/orders/isPurchase";
         const res = await fetch(url, {
@@ -24,6 +26,7 @@ const VideoContainer = ({ courseId, video, isPreview }) => {
         const data = await res.json();
 
         setIsPaid(true);
+        setLoading(false);
       } catch (error) {
         setIsPaid(false);
       }
@@ -41,10 +44,22 @@ const VideoContainer = ({ courseId, video, isPreview }) => {
             </AspectRatio>
           ) : (
             <>
-              {user && isPaid ? (
-                <AspectRatio ratio={16 / 9} maxW="100%">
-                  <>{ReactHtmlParser(video)}</>
-                </AspectRatio>
+              {user ? (
+                <>
+                  {loading ? (
+                    <Loader />
+                  ) : (
+                    <>
+                      {isPaid ? (
+                        <AspectRatio ratio={16 / 9} maxW="100%">
+                          <>{ReactHtmlParser(video)}</>
+                        </AspectRatio>
+                      ) : (
+                        <NotPaid />
+                      )}
+                    </>
+                  )}
+                </>
               ) : (
                 <NotPaid />
               )}
